@@ -13,7 +13,6 @@ public class TwoFloodwalls {
     public static int brute(int[] walls) {
         long maxArea = 0;
 
-        // Try every pair of distinct walls, with the left index before the right.
         for (int i = 0; i < walls.length - 1; i++) {
             for (int j = i + 1; j < walls.length; j++) {
                 int waterHeight = Math.min(walls[i], walls[j]);
@@ -41,8 +40,7 @@ public class TwoFloodwalls {
                 maxArea = area;
             }
 
-            // Keeping the shorter wall while reducing the width cannot help.
-            // If heights are equal, either pointer may be moved.
+
             if (walls[left] <= walls[right]) {
                 left++;
             } else {
