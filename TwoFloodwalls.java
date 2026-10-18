@@ -9,15 +9,47 @@
  */
 public class TwoFloodwalls {
 
-    /** Brute force solution. Time: O(?)  Space: O(?) */
+    /** Brute force solution. Time: O(n^2)  Space: O(1) */
     public static int brute(int[] walls) {
-        // TODO
-        return 0;
+        long maxArea = 0;
+
+        // Try every pair of distinct walls, with the left index before the right.
+        for (int i = 0; i < walls.length - 1; i++) {
+            for (int j = i + 1; j < walls.length; j++) {
+                int waterHeight = Math.min(walls[i], walls[j]);
+                int width = j - i;
+                long area = (long) waterHeight * width;
+                if (area > maxArea) {
+                    maxArea = area;
+                }
+            }
+        }
+
+        return Math.toIntExact(maxArea);
     }
 
-    /** Optimized solution. Time: O(?)  Space: O(?) */
+    /** Optimized solution (two pointers). Time: O(n)  Space: O(1) */
     public static int optimized(int[] walls) {
-        // TODO
-        return 0;
+        int left = 0;
+        int right = walls.length - 1;
+        long maxArea = 0;
+
+        while (left < right) {
+            int waterHeight = Math.min(walls[left], walls[right]);
+            long area = (long) waterHeight * (right - left);
+            if (area > maxArea) {
+                maxArea = area;
+            }
+
+            // Keeping the shorter wall while reducing the width cannot help.
+            // If heights are equal, either pointer may be moved.
+            if (walls[left] <= walls[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+
+        return Math.toIntExact(maxArea);
     }
 }
